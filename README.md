@@ -95,7 +95,7 @@ the convertor convert it into:
 |---|---|---|
 |acc|file|accumulator for a file|
 |@meta|convertor|meta data for the convertor|
-|@opts|convertor|options for the convertor|
+|@opts|convertor|options for the convertor(`#conv` can receive options.)|
 
 ### Convertor Hooks
 
@@ -123,7 +123,7 @@ the convertor convert it into:
 |---|---|---|
 |Line|Line|raw line convertor|
 |CSV|Line|CSV line convertor|
-|Data|Lile|raw file data convertor|
+|Data|File|raw file data convertor|
 |File|File|`File` convertor|
 |JSON|File|JSON convertor|
 
