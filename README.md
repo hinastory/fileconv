@@ -181,6 +181,7 @@ converted file (`output/address.json`) :
 [{"name":"Mike","Age":"21","country":"USA"},{"name":"Jon","Age":"33","country":"USA"}]
 ```
 
+You can see more [examples](https://github.com/hinastory/fileconv/tree/master/example).
 
 ### Make MetaConvertor
 
