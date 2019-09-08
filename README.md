@@ -25,7 +25,7 @@ Or install it yourself as:
 You have to do a few things to build a Convertor with `fileconv` gem.
 
 - include `MetaConvertor`(e.g. `Fileconv::Line`) into your object,
-- add several hooks(e.g. `input_ext`) if you need.
+- add some hooks(e.g. `input_ext`) if you need.
 
 Lets start with a simple example. It will be a convertor for simple text files.
 
@@ -89,22 +89,16 @@ the convertor convert it into:
 3: 333
 ```
 
-### Variables
-
-|variable|scope|descripton|
-|---|---|---|
-|acc|file|accumulator for a file|
-|@meta|convertor|meta data for the convertor|
-|@opts|convertor|options for the convertor(`#conv` can receive options.)|
-
 ### Convertor Hooks
+
+You can overwrite convertor hooks if you need. The default action is that a converter copies all files in the current directory to an “output” directory. The convertor make the "output" directory in the current directory if it doesn't exist.
 
 |hook|default|description|
 |---|---|---|
 |input_dir|"."(current directory)|input Directory|
 |input_ext|`nil` (all files)|input extension|
 |output_dir|"output"|output directory|
-|input_files|`nil` (use `input_dir`)|input files(array of file names)|
+|input_files(files)|`files`|input files|
 |init_conv|`nil`|init convertor hook|
 |init_acc(acc)|`nil`|init accumulator hook|
 |read_file(filename, acc)|`nil` (use default reader)|read file hook|
@@ -114,10 +108,28 @@ the convertor convert it into:
 |result_filename|"result.txt"|result filename|
 |conv_result|`nil`|conversion result|
 
+Input files is selected by `input_dir` and `input_ext`. you can overwrite it with `#input_files` hooks.
 
-### Default MetaConvertor
+The most commonly used hooks are：
 
-`fileconv` gem have several default MetaConvertor:
+- `#input_ext`
+- `#convert_line`
+- `#convert_file`
+- `#conv_result`
+
+### Convertor Variables
+
+You can use several convertor variables. Convertor variables are `Hash` type and have a specific scope. `acc` has single file scope, which means that it is initialized for each file. `@meta` and `@opts` is valid in a convertor. `@opts` variable is set by `#conv` method that takes user options. you can use `@meta` variable for any purpose.
+
+|variable|scope|descripton|
+|---|---|---|
+|acc|file|accumulator for a file|
+|@meta|convertor|meta data for the convertor|
+|@opts|convertor|options for the convertor|
+
+### Default MetaConvertors
+
+`fileconv` gem have several default MetaConvertors. MetaConverters are mainly intended to be included by a converter.
 
 |MetaConvertor|mode|description|
 |---|---|---|
@@ -127,21 +139,21 @@ the convertor convert it into:
 |File|File|`File` convertor|
 |JSON|File|JSON convertor|
 
-A convertor(includes MetaConvertor) can be divided into two modes.
+Convertors(includes MetaConvertors) can be divided into two modes.
 
 - Line Mode
-  - `#convert_line` hooks is called
+  - `#convert_line` hooks is called.
   - e.g. `Line`, `CSV`
 - File Mode
-  - `#convert_line` hooks is not called
+  - `#convert_line` hooks is not called.
   - e.g. `Data`, `File`, `JSON`
 
-Let's see a JSON example.
+Let's see a JSON MetaConvertor usage.
 
 ```ruby
 require 'fileconv'
 
-class ModifyJSON
+class ModifyJSONConvertor
   include Fileconv::JSON
 
   def input_ext
@@ -156,7 +168,7 @@ class ModifyJSON
   end
 end
 
-ModifyJSON.new.conv
+ModifyJSONConvertor.new.conv
 ```
 
 original file (`address.json`) :
@@ -203,10 +215,12 @@ module Fileconv
 end
 ```
 
-MetaConvertor can use below hooks:
+MetaConvertors can use below hooks:
 
 - pre_init_conv
 - post_init_conv
+- pre_input_files
+- post_input_files
 - pre_init_acc
 - post_init_acc
 - pre_convert_file

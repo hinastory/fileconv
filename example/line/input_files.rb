@@ -6,7 +6,7 @@ class InputFiles
     "txt"
   end
 
-  def input_files
+  def input_files(files)
     ["test1.txt", "test3.txt"]
   end
 

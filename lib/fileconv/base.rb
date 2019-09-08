@@ -1,46 +1,56 @@
 module Fileconv
   module MetaConvertor
-    # Pre hook for {Convertor#init_conv}
+    # Pre-hook for {Convertor#init_conv}
     def pre_init_conv
     end
 
-    # Post hook for {Convertor#init_conv}
+    # Post-hook for {Convertor#init_conv}
     def post_init_conv
     end
 
-    # Pre hook for {Convertor#init_acc}
+    # Pre-hook for {Convertor#input_files}
+    def pre_input_files(files)
+      files
+    end
+
+    # Post-hook for {Convertor#input_files}
+    def post_input_files(files)
+      files
+    end
+
+    # Pre-hook for {Convertor#init_acc}
     def pre_init_acc(acc)
     end
 
-    # Post hook for {Convertor#init_acc}
+    # Post-hook for {Convertor#init_acc}
     def post_init_acc(acc)
     end
 
-    # Pre hook for {Convertor#convert_file}
+    # Pre-hook for {Convertor#convert_file}
     def pre_convert_file(file, acc)
       file
     end
 
-    # Pre hook for {Convertor#convert_line}
+    # Pre-hook for {Convertor#convert_line}
     def pre_convert_line(line, acc)
       line
     end
 
-    # Post hook for {Convertor#convert_line}
+    # Post-hook for {Convertor#convert_line}
     def post_convert_line(line, acc)
       line
     end
 
-    # Pre hook for {Convertor#convert_file}
+    # Pre-hook for {Convertor#convert_file}
     def post_convert_file(file, acc)
       file
     end
 
-    # Pre hook for {Convertor#conv_result}
+    # Pre-hook for {Convertor#conv_result}
     def pre_conv_result
     end
 
-    # Post hook for {Convertor#conv_result}
+    # Post-hook for {Convertor#conv_result}
     def post_conv_result(result)
       result
     end
@@ -67,10 +77,11 @@ module Fileconv
     end
 
     # Input files
-    # @return [Array<String>,nil]
-    # @note ignore {#input_dir} if this method return non-nil
-    # @note select files by {#input_dir} and {#input_ext} if this method return nil
-    def input_files
+    # @param [Array<string>] files input files
+    # @return [Array<String>]
+    # @note you can overwrite default input files
+    def input_files(files)
+      files
     end
 
     # Initialize the convertor
@@ -151,28 +162,28 @@ module Fileconv
         raw = ::File.read(filename, @opts[:read_file_opts]) unless raw
       end
 
-      pre_converted_file = pre_convert_file(raw, acc)
+      converted_file = pre_convert_file(raw, acc)
       if @opts[:line_mode]
         # Line mode
-        pre_converted_file = process_line(pre_converted_file, acc)
+        converted_file = process_line(converted_file, acc)
       end
 
-      converted_file = convert_file(pre_converted_file, acc)
-      post_converted_file = post_convert_file(converted_file, acc)
-      if post_converted_file
+      converted_file = convert_file(converted_file, acc)
+      converted_file = post_convert_file(converted_file, acc)
+      if converted_file
         out = output_filename(::File.basename(filename), acc)
         Dir.mkdir output_dir if !Dir.exists? output_dir
-        ::File.write(::File.join(output_dir, out), post_converted_file, @opts[:read_file_opts])
+        ::File.write(::File.join(output_dir, out), converted_file, @opts[:read_file_opts])
       end
     end
 
     def process_line(raw_lines, acc)
       lines = []
       raw_lines.each do |line|
-        pre_converted_line = pre_convert_line(line, acc)
-        converted_line = convert_line(pre_converted_line, acc)
-        post_converted_line = post_convert_line(converted_line, acc)
-        lines.push *post_converted_line
+        converted_line = pre_convert_line(line, acc)
+        converted_line = convert_line(converted_line, acc)
+        converted_line = post_convert_line(converted_line, acc)
+        lines.push *converted_line
       end
       lines
     end
@@ -188,11 +199,11 @@ module Fileconv
       init_conv()
       post_init_conv()
 
-      files = input_files()
-      unless files
-        glob = input_ext ?  "*." + input_ext : "*"
-        files = Dir.glob(::File.join(input_dir, glob))
-      end
+      glob = input_ext ?  "*." + input_ext : "*"
+      files = Dir.glob(::File.join(input_dir, glob))
+      files = pre_input_files(files)
+      files = input_files(files)
+      files = post_input_files(files)
 
       files.each do |filename|
         process_file(filename)
