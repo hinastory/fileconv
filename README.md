@@ -1,6 +1,6 @@
 # Fileconv
 
-Extensible multi-file convertor. Simple text file, CSV file, JSON file binary file and so on.
+Extensible multi-file convertor. Simple text file, CSV file, JSON file, binary file and so on.
 
 `fileconv` gem is a simple to use and extensible library to convert multi-file format. You can extend your class with `MetaConvertor` and convert files into various format.
 
