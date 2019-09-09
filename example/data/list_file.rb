@@ -3,6 +3,10 @@ require 'fileconv'
 class ListFile
   include Fileconv::Data
 
+  def input_ext
+    "data"
+  end
+
   def init_conv
     @meta[:files] = []
     @opts[:disable_read_file] = true
