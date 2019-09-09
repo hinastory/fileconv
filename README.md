@@ -183,9 +183,9 @@ converted file (`output/address.json`) :
 
 You can see more [examples](https://github.com/hinastory/fileconv/tree/master/example).
 
-### Make MetaConvertor
+### Make MetaConvertors
 
-You can make meta convertor easily.
+You can make meta convertors easily.
 `fileconv` gem's JSON MetaConvertor is below:
 
 ```ruby
