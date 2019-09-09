@@ -1,3 +1,0 @@
-test.data: size=11, modified time=2019-09-07 16:30:29 +0900
-list_file.rb: size=553, modified time=2019-09-07 16:40:01 +0900
-total size: 564 bytes

@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["hinastory"]
   spec.email         = ["1696779+hinastory@users.noreply.github.com"]
 
-  spec.summary       = %q{Extensible multi-file convertor.}
-  spec.description   = %q{Extensible multi-file convertor.}
+  spec.summary       = %q{Extensible multi-file convertor. Simple text file, CSV file, JSON file, binary file and so on.}
+  spec.description   = %q{Extensible multi-file convertor. Simple text file, CSV file, JSON file, binary file and so on.}
   spec.homepage      = "https://github.com/hinastory/fileconv"
   spec.license       = "MIT"
 
