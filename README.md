@@ -54,7 +54,7 @@ That's it. Now you can use a method `#conv` to convert all text files(`.txt`) fr
 
 ```
 convertor = AddLinenoConvertor.new
-covertor.conv
+convertor.conv
 ```
 
 If you have two text(`.txt`) files:
