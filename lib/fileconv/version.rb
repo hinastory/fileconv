@@ -1,3 +1,3 @@
 module Fileconv
-  VERSION = "0.3.O"
+  VERSION = "0.3.1"
 end
