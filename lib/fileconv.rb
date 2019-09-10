@@ -7,4 +7,5 @@ module Fileconv
   autoload :Data, 'fileconv/data'
   autoload :File, 'fileconv/file'
   autoload :JSON, 'fileconv/json'
+  autoload :Stat, 'fileconv/stat'
 end

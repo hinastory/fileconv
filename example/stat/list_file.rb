@@ -1,19 +1,13 @@
 require 'fileconv'
 
 class ListFile
-  include Fileconv::Data
-
-  def input_ext
-    "data"
-  end
+  include Fileconv::Stat
 
   def init_conv
     @meta[:files] = []
-    @opts[:disable_read_file] = true
   end
 
-  def convert_file(data, acc)
-    stat = File.stat(acc[:orig_filename])
+  def convert_file(stat, acc)
     @meta[:files].push [File.basename(acc[:orig_filename]), stat.size, stat.mtime]
     nil
   end

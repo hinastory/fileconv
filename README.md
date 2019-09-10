@@ -133,20 +133,23 @@ You can use several convertor variables. Convertor variables are `Hash` type and
 
 |MetaConvertor|mode|description|
 |---|---|---|
-|Line|Line|raw line convertor|
-|CSV|Line|CSV line convertor|
-|Data|File|raw file data convertor|
-|File|File|`File` convertor|
-|JSON|File|JSON convertor|
+|Line|Line|get raw line data|
+|CSV|Line|get a CSV line(`Array` or `Row`)|
+|Data|File|get raw file data|
+|File|File|get a `File` object|
+|Stat|File|get a `Stat` object|
+|JSON|File|get a `JSON` object|
 
 Convertors(includes MetaConvertors) can be divided into two modes.
 
 - Line Mode
-  - `#convert_line` hooks is called.
+  - `#convert_line` hook is called.
+  - `#convert_file` hook is called.
   - e.g. `Line`, `CSV`
 - File Mode
-  - `#convert_line` hooks is not called.
-  - e.g. `Data`, `File`, `JSON`
+  - `#convert_line` hook is not called.
+  - `#convert_file` hook is called.
+  - e.g. `Data`, `File`,  `Stat`, `JSON`
 
 Let's see a JSON MetaConvertor usage.
 
