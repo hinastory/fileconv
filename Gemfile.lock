@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fileconv (0.2.2)
+    fileconv (0.3.O)
 
 GEM
   remote: https://rubygems.org/
